@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 @RestController
 @EnableAutoConfiguration
 public class Controller {
-
     @RequestMapping(value = "/getWord", method = RequestMethod.GET, produces = "application/json")
     public String getWord() {
         JsonObject json = new JsonObject();
@@ -29,12 +28,19 @@ public class Controller {
         return json.toString();
     }
 
-    @RequestMapping(value = "/postAnswer", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> abc(@RequestBody Answer answer) {
-        System.out.println(answer.getWord());
+    @RequestMapping(value = "/questions", method = RequestMethod.GET, produces = "application/json")
+    public QuestionsResponse getQuestions() {
+        return new QuestionsResponse(QuestionsGeneratorFr.generateQuestions());
+    }
+
+
+    @RequestMapping(value = "/sendAnswer", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<AnswerResponse> abc(@RequestBody AnswerRequest answerRequest) {
+        System.out.println(answerRequest.getAnswer());
+        System.out.println(answerRequest.getQuestionId());
         JsonObject json = new JsonObject();
         json.addProperty("word", "greetings from server");
-        return ResponseEntity.ok(json.toString());
+        return ResponseEntity.ok(new AnswerResponse("la".equals(answerRequest.getAnswer())));
     }
 
     public static void main(String[] args) throws Exception {
