@@ -1,14 +1,14 @@
 package cz.dominik.artr;
 
 public class AnswerRequest {
-    private String questionId;
+    private long questionId;
     private String answer;
 
-    public String getQuestionId() {
+    public long getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(String questionId) {
+    public void setQuestionId(long questionId) {
         this.questionId = questionId;
     }
 

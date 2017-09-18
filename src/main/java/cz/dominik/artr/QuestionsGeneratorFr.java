@@ -11,7 +11,7 @@ public class QuestionsGeneratorFr {
     private QuestionsGeneratorFr() {
     }
 
-    private static int newId = 1;
+    private static long newId = 1;
     private static final List<String> questionTexts = Arrays.asList(
             "voiture", "table", "femme", "peur", "histoire", "porte", "année", "tête", "affaire", "place");
 

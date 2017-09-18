@@ -40,7 +40,7 @@ public class Controller {
         System.out.println(answerRequest.getQuestionId());
         JsonObject json = new JsonObject();
         json.addProperty("word", "greetings from server");
-        return ResponseEntity.ok(new AnswerResponse("la".equals(answerRequest.getAnswer())));
+        return ResponseEntity.ok(new AnswerResponse(answerRequest.getQuestionId(), "la".equals(answerRequest.getAnswer())));
     }
 
     public static void main(String[] args) throws Exception {
