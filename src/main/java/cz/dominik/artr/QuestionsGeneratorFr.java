@@ -2,6 +2,7 @@ package cz.dominik.artr;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -14,6 +15,10 @@ public class QuestionsGeneratorFr {
     private static long newId = 1;
     private static final List<String> questionTexts = Arrays.asList(
             "voiture", "table", "femme", "peur", "histoire", "porte", "année", "tête", "affaire", "place");
+
+    public static QuestionToBeAnswered getQuestion() {
+        return createQuestion(questionTexts.get(new Random().nextInt(questionTexts.size() - 1)));
+    }
 
     private static QuestionToBeAnswered createQuestion(String question) {
         return new QuestionToBeAnswered(newId++, question, Arrays.asList("le", "la"));
