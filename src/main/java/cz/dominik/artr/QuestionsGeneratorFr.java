@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import cz.dominik.artr.question.Question;
+
 /**
  * @author dominik.mozny
  */
@@ -16,15 +18,15 @@ public class QuestionsGeneratorFr {
     private static final List<String> questionTexts = Arrays.asList(
             "voiture", "table", "femme", "peur", "histoire", "porte", "année", "tête", "affaire", "place");
 
-    public static QuestionToBeAnswered getQuestion() {
+    public static Question getQuestion() {
         return createQuestion(questionTexts.get(new Random().nextInt(questionTexts.size() - 1)));
     }
 
-    private static QuestionToBeAnswered createQuestion(String question) {
-        return new QuestionToBeAnswered(newId++, question, Arrays.asList("le", "la"));
+    private static Question createQuestion(String question) {
+        return new Question(newId++, question, Arrays.asList("le", "la"));
     }
 
-    public static List<QuestionToBeAnswered> generateQuestions() {
+    public static List<Question> generateQuestions() {
         return questionTexts.stream().map(QuestionsGeneratorFr::createQuestion).collect(Collectors.toList());
     }
 }

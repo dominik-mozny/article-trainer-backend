@@ -1,16 +1,21 @@
-package cz.dominik.artr;
+package cz.dominik.artr.question;
 
 import java.util.List;
+
+import org.springframework.data.annotation.Id;
 
 /**
  * @author dominik.mozny
  */
-public class QuestionToBeAnswered {
+public class Question {
+
+
+    @Id
     private long id;
     private String question;
     private List<String> answers;
 
-    public QuestionToBeAnswered(long id, String question, List<String> answers) {
+    public Question(long id, String question, List<String> answers) {
         this.id = id;
         this.question = question;
         this.answers = answers;
