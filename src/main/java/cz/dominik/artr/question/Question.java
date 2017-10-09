@@ -11,7 +11,7 @@ public class Question {
 
 
     @Id
-    private long id;
+    private Long id;
     private String question;
     private List<String> answers;
 
