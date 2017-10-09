@@ -17,16 +17,6 @@ import com.google.gson.JsonObject;
 @RestController
 @EnableAutoConfiguration
 public class Controller {
-    @RequestMapping(value = "/getWord", method = RequestMethod.GET, produces = "application/json")
-    public String getWord() {
-        JsonObject json = new JsonObject();
-        json.addProperty("word", "voiture");
-        JsonArray answers = new JsonArray();
-        answers.add("la");
-        answers.add("le");
-        json.add("answers", answers);
-        return json.toString();
-    }
 
     @RequestMapping(value = "/questions", method = RequestMethod.GET, produces = "application/json")
     public QuestionsResponse getQuestions() {
