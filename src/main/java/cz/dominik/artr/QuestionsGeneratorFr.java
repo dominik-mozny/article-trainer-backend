@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import cz.dominik.artr.question.Question;
+import cz.dominik.artr.domain.Question;
 
 /**
  * @author dominik.mozny

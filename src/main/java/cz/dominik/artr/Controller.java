@@ -1,10 +1,9 @@
 package cz.dominik.artr;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,17 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.JsonObject;
 
-import cz.dominik.artr.question.Question;
-import cz.dominik.artr.question.QuestionRepository;
+import cz.dominik.artr.domain.PersistentQuestionRepository;
+import cz.dominik.artr.domain.PersistentQuestionService;
+import cz.dominik.artr.domain.QuestionType;
+import cz.dominik.artr.remote.AddQuestionsAnswer;
+import cz.dominik.artr.remote.AnswerRequest;
+import cz.dominik.artr.remote.AnswerResponse;
+import cz.dominik.artr.remote.NewQuestions;
 
 /**
  * @author dominik.mozny
  */
 @RestController
+@ComponentScan
 @EnableAutoConfiguration
 public class Controller {
     @Autowired
-    private QuestionRepository questionRepository;
+    private PersistentQuestionRepository persistentQuestionRepository;
+
+    @Autowired
+    private PersistentQuestionService persistentQuestionService;
 
     @RequestMapping(value = "/questions", method = RequestMethod.GET, produces = "application/json")
     public QuestionsResponse getQuestions() {
@@ -42,14 +50,18 @@ public class Controller {
 
     @RequestMapping(value = "/deleteAllQuestions", method = RequestMethod.GET, produces = "application/json")
     public void deleteAllQuestions() {
-        questionRepository.deleteAll();
+        persistentQuestionRepository.deleteAll();
         System.out.println("All deleted");
     }
 
-    @RequestMapping(value = "/addAllQuestions", method = RequestMethod.POST, produces = "application/json")
-    public void addAllQuestions(@RequestBody List<Question> questions) {
-        questionRepository.save(questions);
-        System.out.println("All added");
+    @RequestMapping(value = "/addAllFrQuestions", method = RequestMethod.POST, produces = "application/json")
+    public AddQuestionsAnswer addAllFrQuestions(@RequestBody NewQuestions questions) {
+        return persistentQuestionService.addAllArticleQuestions(questions, QuestionType.FR);
+    }
+
+    @RequestMapping(value = "/addAllDeQuestions", method = RequestMethod.POST, produces = "application/json")
+    public AddQuestionsAnswer addAllDeQuestions(@RequestBody NewQuestions questions) {
+        return persistentQuestionService.addAllArticleQuestions(questions, QuestionType.DE);
     }
 
     public static void main(String[] args) throws Exception {

@@ -2,7 +2,7 @@ package cz.dominik.artr;
 
 import java.util.List;
 
-import cz.dominik.artr.question.Question;
+import cz.dominik.artr.domain.Question;
 
 /**
  * @author dominik.mozny
