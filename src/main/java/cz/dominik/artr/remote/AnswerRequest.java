@@ -1,4 +1,4 @@
-package cz.dominik.artr;
+package cz.dominik.artr.remote;
 
 public class AnswerRequest {
     private long questionId;

@@ -1,6 +1,7 @@
-package cz.dominik.artr;
+package cz.dominik.artr.remote;
 
-import cz.dominik.artr.question.Question;
+import cz.dominik.artr.QuestionsGeneratorFr;
+import cz.dominik.artr.domain.Question;
 
 /**
  * @author dominik.mozny
