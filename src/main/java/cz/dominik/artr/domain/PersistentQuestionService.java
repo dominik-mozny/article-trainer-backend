@@ -38,7 +38,7 @@ public class PersistentQuestionService {
 
     private Optional<String> invalidQuestionReason(List<NewQuestion> questions, QuestionType questionType) {
 
-        List<NewQuestion> invalidQuestions = questions.stream().filter(q -> questionType.getArticles().contains(q.getRightAnswer())).collect(Collectors.toList());
+        List<NewQuestion> invalidQuestions = questions.stream().filter(q -> !questionType.getArticles().contains(q.getRightAnswer())).collect(Collectors.toList());
         if (invalidQuestions.isEmpty()) {
             return Optional.empty();
         }

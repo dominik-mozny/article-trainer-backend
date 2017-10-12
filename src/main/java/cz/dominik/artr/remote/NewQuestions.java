@@ -11,4 +11,8 @@ public class NewQuestions {
     public List<NewQuestion> getQuestions() {
         return questions;
     }
+
+    public void setQuestions(List<NewQuestion> questions) {
+        this.questions = questions;
+    }
 }
