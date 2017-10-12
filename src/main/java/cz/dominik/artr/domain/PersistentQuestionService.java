@@ -22,6 +22,10 @@ public class PersistentQuestionService {
     @Autowired
     private PersistentQuestionRepository persistentQuestionRepository;
 
+    @Autowired
+    private IdGenerator idGenerator;
+
+
     public AddQuestionsAnswer addAllArticleQuestions(NewQuestions questions, QuestionType questionType) {
         Optional<String> invalidQuestionReason = invalidQuestionReason(questions.getQuestions(), questionType);
         if (invalidQuestionReason.isPresent()) {
@@ -29,7 +33,9 @@ public class PersistentQuestionService {
             return AddQuestionsAnswer.failure(invalidQuestionReason.get());
         }
         else {
-            List<PersistentQuestion> questionsToPersist = questions.getQuestions().stream().map(q -> new PersistentQuestion(q, questionType)).collect(Collectors.toList());
+            List<PersistentQuestion> questionsToPersist = questions.getQuestions().stream()
+                    .map(q -> new PersistentQuestion(idGenerator.getAndIncrementNextId(), q, questionType))
+                    .collect(Collectors.toList());
             persistentQuestionRepository.save(questionsToPersist);
             LOGGER.info("Questions saved successfully.");
             return AddQuestionsAnswer.success();
@@ -38,7 +44,8 @@ public class PersistentQuestionService {
 
     private Optional<String> invalidQuestionReason(List<NewQuestion> questions, QuestionType questionType) {
 
-        List<NewQuestion> invalidQuestions = questions.stream().filter(q -> !questionType.getArticles().contains(q.getRightAnswer())).collect(Collectors.toList());
+        List<NewQuestion> invalidQuestions = questions.stream()
+                .filter(q -> !questionType.getArticles().contains(q.getRightAnswer())).collect(Collectors.toList());
         if (invalidQuestions.isEmpty()) {
             return Optional.empty();
         }
