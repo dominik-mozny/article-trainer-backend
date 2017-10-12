@@ -46,5 +46,4 @@ public class PersistentQuestionService {
                 .map(i -> "q: " + i.getQuestion() + "a: " + i.getRightAnswer())
                 .collect(Collectors.joining(", ", "Invalid questions: ", ".")));
     }
-
 }

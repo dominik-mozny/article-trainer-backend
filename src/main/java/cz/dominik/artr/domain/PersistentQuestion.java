@@ -30,39 +30,19 @@ public class PersistentQuestion {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getQuestion() {
         return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
     }
 
     public List<AnswerStatistic> getAnswerStatistics() {
         return answerStatistics;
     }
 
-    public void setAnswerStatistics(List<AnswerStatistic> answerStatistics) {
-        this.answerStatistics = answerStatistics;
-    }
-
     public String getRightAnswer() {
         return rightAnswer;
     }
 
-    public void setRightAnswer(String rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-
     public List<String> getAnswers() {
         return answers;
-    }
-
-    public void setAnswers(List<String> answers) {
-        this.answers = answers;
     }
 }
