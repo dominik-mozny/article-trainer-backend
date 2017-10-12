@@ -1,7 +1,9 @@
 package cz.dominik.artr.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -24,6 +26,8 @@ public class PersistentQuestionService {
 
     @Autowired
     private IdGenerator idGenerator;
+
+    private static Random RANDOM_GENERATOR = new Random();
 
 
     public AddQuestionsAnswer addAllArticleQuestions(NewQuestions questions, QuestionType questionType) {
@@ -52,5 +56,27 @@ public class PersistentQuestionService {
         return Optional.of(invalidQuestions.stream()
                 .map(i -> "q: " + i.getQuestion() + "a: " + i.getRightAnswer())
                 .collect(Collectors.joining(", ", "Invalid questions: ", ".")));
+    }
+
+    public List<PersistentQuestion> getNextQuestionsToAnswer(String nameOfQuestionCollection, int noOfQuestions) {
+        List<PersistentQuestion> first100ByCollection = persistentQuestionRepository.findFirst100ByCollection(nameOfQuestionCollection);
+        List<PersistentQuestion> selectedQuestions = new ArrayList<>();
+        List<Integer> usedIndexes = new ArrayList<>();
+        while (usedIndexes.size() < noOfQuestions && usedIndexes.size() < first100ByCollection.size()) {
+            int questionIndex = RANDOM_GENERATOR.nextInt(first100ByCollection.size());
+            if (usedIndexes.contains(questionIndex)) {
+                continue;
+            }
+            selectedQuestions.add(first100ByCollection.get(questionIndex));
+            usedIndexes.add(questionIndex);
+        }
+        return selectedQuestions;
+    }
+
+    public PersistentQuestion getNextQuestionToAnswer(String nameOfQuestionCollection) {
+        System.out.println(nameOfQuestionCollection);
+        List<PersistentQuestion> first100ByCollection = persistentQuestionRepository.findFirst100ByCollection(nameOfQuestionCollection);
+        int questionIndex = RANDOM_GENERATOR.nextInt(first100ByCollection.size() - 1);
+        return first100ByCollection.get(questionIndex);
     }
 }
