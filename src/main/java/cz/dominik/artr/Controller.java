@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cz.dominik.artr.domain.PersistentQuestion;
 import cz.dominik.artr.domain.PersistentQuestionRepository;
 import cz.dominik.artr.domain.PersistentQuestionService;
-import cz.dominik.artr.domain.Question;
+import cz.dominik.artr.domain.QuestionToBeAnswered;
 import cz.dominik.artr.domain.QuestionType;
 import cz.dominik.artr.remote.AddQuestionsAnswer;
 import cz.dominik.artr.remote.AnswerRequest;
@@ -39,7 +39,7 @@ public class Controller {
     @RequestMapping(value = "/questions", method = RequestMethod.GET, produces = "application/json")
     public QuestionsResponse getQuestions() {
         List<PersistentQuestion> questions = persistentQuestionService.getNextQuestionsToAnswer(QuestionType.FR.toString(), 10);
-        return new QuestionsResponse(questions.stream().map(Question::new).collect(Collectors.toList()));
+        return new QuestionsResponse(questions.stream().map(QuestionToBeAnswered::new).collect(Collectors.toList()));
     }
 
 
@@ -52,7 +52,7 @@ public class Controller {
         return ResponseEntity.ok(new AnswerResponse(
                 answerRequest.getQuestionId(),
                 question.getRightAnswer().equals(answerRequest.getAnswer()),
-                new Question(persistentQuestionService.getNextQuestionToAnswer(QuestionType.FR.toString()))));
+                new QuestionToBeAnswered(persistentQuestionService.getNextQuestionToAnswer(QuestionType.FR.toString()))));
     }
 
     @RequestMapping(value = "/deleteAllQuestions", method = RequestMethod.GET, produces = "application/json")

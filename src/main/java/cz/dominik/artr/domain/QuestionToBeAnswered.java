@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 /**
  * @author dominik.mozny
  */
-public class Question {
+public class QuestionToBeAnswered {
 
 
     @Id
@@ -15,13 +15,13 @@ public class Question {
     private String question;
     private List<String> answers;
 
-    public Question(PersistentQuestion pQuestion) {
+    public QuestionToBeAnswered(PersistentQuestion pQuestion) {
         this.id = pQuestion.getId();
         this.question = pQuestion.getQuestion();
         this.answers = pQuestion.getAnswers();
     }
 
-    public Question(long id, String question, List<String> answers) {
+    public QuestionToBeAnswered(long id, String question, List<String> answers) {
         this.id = id;
         this.question = question;
         this.answers = answers;

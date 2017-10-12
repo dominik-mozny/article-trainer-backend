@@ -1,6 +1,6 @@
 package cz.dominik.artr.remote;
 
-import cz.dominik.artr.domain.Question;
+import cz.dominik.artr.domain.QuestionToBeAnswered;
 
 /**
  * @author dominik.mozny
@@ -8,9 +8,9 @@ import cz.dominik.artr.domain.Question;
 public class AnswerResponse {
     private long questionId;
     private boolean result;
-    private Question nextQuestion;
+    private QuestionToBeAnswered nextQuestion;
 
-    public AnswerResponse(long questionId, boolean result, Question nextQuestion) {
+    public AnswerResponse(long questionId, boolean result, QuestionToBeAnswered nextQuestion) {
         this.questionId = questionId;
         this.result = result;
         this.nextQuestion = nextQuestion;
@@ -24,7 +24,7 @@ public class AnswerResponse {
         return questionId;
     }
 
-    public Question getNextQuestion() {
+    public QuestionToBeAnswered getNextQuestion() {
         return nextQuestion;
     }
 }

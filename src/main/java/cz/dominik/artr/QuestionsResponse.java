@@ -2,19 +2,19 @@ package cz.dominik.artr;
 
 import java.util.List;
 
-import cz.dominik.artr.domain.Question;
+import cz.dominik.artr.domain.QuestionToBeAnswered;
 
 /**
  * @author dominik.mozny
  */
 public class QuestionsResponse {
-    private List<Question> questions;
+    private List<QuestionToBeAnswered> questions;
 
-    public QuestionsResponse(List<Question> questions) {
+    public QuestionsResponse(List<QuestionToBeAnswered> questions) {
         this.questions = questions;
     }
 
-    public List<Question> getQuestions() {
+    public List<QuestionToBeAnswered> getQuestions() {
         return questions;
     }
 }
