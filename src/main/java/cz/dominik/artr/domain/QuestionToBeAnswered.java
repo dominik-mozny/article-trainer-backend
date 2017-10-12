@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 /**
  * @author dominik.mozny
  */
-//TODO to be removed after rewriting cz.dominik.artr.Controller.getQuestions()
-@Deprecated
 public class Question {
 
 
@@ -16,6 +14,12 @@ public class Question {
     private Long id;
     private String question;
     private List<String> answers;
+
+    public Question(PersistentQuestion pQuestion) {
+        this.id = pQuestion.getId();
+        this.question = pQuestion.getQuestion();
+        this.answers = pQuestion.getAnswers();
+    }
 
     public Question(long id, String question, List<String> answers) {
         this.id = id;

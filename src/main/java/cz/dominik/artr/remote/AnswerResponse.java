@@ -1,6 +1,5 @@
 package cz.dominik.artr.remote;
 
-import cz.dominik.artr.QuestionsGeneratorFr;
 import cz.dominik.artr.domain.Question;
 
 /**
@@ -11,10 +10,10 @@ public class AnswerResponse {
     private boolean result;
     private Question nextQuestion;
 
-    public AnswerResponse(long questionId, boolean result) {
+    public AnswerResponse(long questionId, boolean result, Question nextQuestion) {
         this.questionId = questionId;
         this.result = result;
-        nextQuestion = QuestionsGeneratorFr.getQuestion();
+        this.nextQuestion = nextQuestion;
     }
 
     public boolean isResult() {
