@@ -57,12 +57,6 @@ public class Controller {
                 new QuestionToBeAnswered(persistentQuestionService.getNextQuestionToAnswer(QuestionType.FR.toString()))));
     }
 
-    @RequestMapping(value = "/deleteAllQuestions", method = RequestMethod.GET, produces = "application/json")
-    public void deleteAllQuestions() {
-        persistentQuestionRepository.deleteAll();
-        System.out.println("All deleted");
-    }
-
     @RequestMapping(value = "/initFrQuestions", method = RequestMethod.POST, produces = "application/json")
     public AddQuestionsAnswer addAllFrQuestions(@RequestBody NewQuestions questions) {
         return persistentQuestionService.initArticleQuestions(questions, QuestionType.FR);
