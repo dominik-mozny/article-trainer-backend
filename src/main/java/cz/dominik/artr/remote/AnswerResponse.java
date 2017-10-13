@@ -1,5 +1,7 @@
 package cz.dominik.artr.remote;
 
+import java.util.List;
+
 import cz.dominik.artr.domain.QuestionToBeAnswered;
 
 /**
@@ -8,10 +10,10 @@ import cz.dominik.artr.domain.QuestionToBeAnswered;
 public class AnswerResponse {
     private long questionId;
     private boolean result;
-    private StatisticsAnswers statisticsAnswers;
+    private List<StatisticsAnswer> statisticsAnswers;
     private QuestionToBeAnswered nextQuestion;
 
-    public AnswerResponse(long questionId, boolean result, StatisticsAnswers statisticsAnswers, QuestionToBeAnswered nextQuestion) {
+    public AnswerResponse(long questionId, boolean result, List<StatisticsAnswer> statisticsAnswers, QuestionToBeAnswered nextQuestion) {
         this.questionId = questionId;
         this.result = result;
         this.statisticsAnswers = statisticsAnswers;
@@ -26,7 +28,7 @@ public class AnswerResponse {
         return questionId;
     }
 
-    public StatisticsAnswers getStatisticsAnswers() {
+    public List<StatisticsAnswer> getStatisticsAnswers() {
         return statisticsAnswers;
     }
 

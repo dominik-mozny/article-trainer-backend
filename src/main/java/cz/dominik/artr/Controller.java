@@ -22,7 +22,7 @@ import cz.dominik.artr.remote.AddQuestionsAnswer;
 import cz.dominik.artr.remote.AnswerRequest;
 import cz.dominik.artr.remote.AnswerResponse;
 import cz.dominik.artr.remote.NewQuestions;
-import cz.dominik.artr.remote.StatisticsAnswers;
+import cz.dominik.artr.remote.StatisticsAnswer;
 
 /**
  * @author dominik.mozny
@@ -55,7 +55,8 @@ public class Controller {
         question.addAnswerStatistics(isRightAnswer, answerRequest.getAnswer());
         persistentQuestionRepository.save(question);
 
-        StatisticsAnswers statisticsAnswers = new StatisticsAnswers(question.getPersistentStatisticsAnswers());
+        List<StatisticsAnswer> statisticsAnswers = question.getPersistentStatisticsAnswers().stream()
+                .map(StatisticsAnswer::new).collect(Collectors.toList());
 
         return ResponseEntity.ok(new AnswerResponse(
                 answerRequest.getQuestionId(),
