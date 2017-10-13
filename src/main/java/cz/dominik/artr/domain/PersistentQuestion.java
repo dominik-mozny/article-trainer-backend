@@ -1,5 +1,6 @@
 package cz.dominik.artr.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +20,11 @@ public class PersistentQuestion {
     private List<String> answers;
     private List<AnswerStatistic> answerStatistics;
     private String collection;
-    @Indexed
     private int noOfAnswers;
+    @Indexed
+    private LocalDateTime lastTimeUsed;
 
     public PersistentQuestion() {
-
     }
 
     public PersistentQuestion(long id, NewQuestion newArticleQuestion, QuestionType questionType) {
@@ -34,6 +35,7 @@ public class PersistentQuestion {
         answerStatistics = new ArrayList<>();
         this.collection = questionType.toString();
         noOfAnswers = 0;
+        lastTimeUsed = LocalDateTime.now();
     }
 
     public long getId() {
@@ -62,5 +64,9 @@ public class PersistentQuestion {
 
     public int getNoOfAnswers() {
         return noOfAnswers;
+    }
+
+    public LocalDateTime getLastTimeUsed() {
+        return lastTimeUsed;
     }
 }

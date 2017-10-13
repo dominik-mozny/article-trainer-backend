@@ -1,6 +1,9 @@
 package cz.dominik.artr.domain;
 
+import static cz.dominik.artr.domain.StaticConfiguration.NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -9,8 +12,10 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import cz.dominik.artr.exception.NotEnoughQuestionsException;
 import cz.dominik.artr.remote.AddQuestionsAnswer;
 import cz.dominik.artr.remote.NewQuestion;
 import cz.dominik.artr.remote.NewQuestions;
@@ -58,25 +63,26 @@ public class PersistentQuestionService {
                 .collect(Collectors.joining(", ", "Invalid questions: ", ".")));
     }
 
-    public List<PersistentQuestion> getNextQuestionsToAnswer(String nameOfQuestionCollection, int noOfQuestions) {
-        List<PersistentQuestion> first100ByCollection = persistentQuestionRepository.findFirst100ByCollection(nameOfQuestionCollection);
-        List<PersistentQuestion> selectedQuestions = new ArrayList<>();
-        List<Integer> usedIndexes = new ArrayList<>();
-        while (usedIndexes.size() < noOfQuestions && usedIndexes.size() < first100ByCollection.size()) {
-            int questionIndex = RANDOM_GENERATOR.nextInt(first100ByCollection.size());
-            if (usedIndexes.contains(questionIndex)) {
-                continue;
-            }
-            selectedQuestions.add(first100ByCollection.get(questionIndex));
-            usedIndexes.add(questionIndex);
+    public List<PersistentQuestion> getInitialQuestions(String nameOfQuestionCollection) {
+        //TODO potential for optimization when needed
+        List<PersistentQuestion> persistentQuestions = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY; i++) {
+            persistentQuestions.add(getNextQuestionToAnswer(nameOfQuestionCollection));
         }
-        return selectedQuestions;
+        return persistentQuestions;
     }
 
     public PersistentQuestion getNextQuestionToAnswer(String nameOfQuestionCollection) {
-        System.out.println(nameOfQuestionCollection);
-        List<PersistentQuestion> first100ByCollection = persistentQuestionRepository.findFirst100ByCollection(nameOfQuestionCollection);
-        int questionIndex = RANDOM_GENERATOR.nextInt(first100ByCollection.size() - 1);
-        return first100ByCollection.get(questionIndex);
+        List<PersistentQuestion> fetchedQuestionCandidates = persistentQuestionRepository.findByCollection(nameOfQuestionCollection, new PageRequest(0, 2 * NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY));
+        if (fetchedQuestionCandidates.size() != NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY * 2) {
+            throw new NotEnoughQuestionsException(nameOfQuestionCollection);
+        }
+        int minNumberOfAnswers = fetchedQuestionCandidates.stream()
+                .min(Comparator.comparing(PersistentQuestion::getNoOfAnswers)).get().getNoOfAnswers();
+        List<PersistentQuestion> filteredQuestionCandidates = fetchedQuestionCandidates.stream()
+                .filter(a -> a.getNoOfAnswers() == minNumberOfAnswers).collect(Collectors.toList());
+        int selectedQuestionIndex = RANDOM_GENERATOR.nextInt(filteredQuestionCandidates.size() - 1);
+        PersistentQuestion selectedQuestion = filteredQuestionCandidates.get(selectedQuestionIndex);
+        return selectedQuestion;
     }
 }

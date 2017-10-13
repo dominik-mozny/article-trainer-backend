@@ -2,11 +2,12 @@ package cz.dominik.artr.domain;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * @author dominik.mozny
  */
 public interface PersistentQuestionRepository extends MongoRepository<PersistentQuestion, Long> {
-    List<PersistentQuestion> findFirst100ByCollection(String collection);
+    List<PersistentQuestion> findByCollection(String collection, Pageable pageable);
 }
