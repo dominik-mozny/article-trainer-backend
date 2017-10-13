@@ -18,7 +18,7 @@ public class PersistentQuestion {
     private String question;
     private String rightAnswer;
     private List<String> answers;
-    private List<AnswerStatistic> answerStatistics;
+    private List<PersistentStatisticsAnswer> persistentStatisticsAnswers = new ArrayList<>();
     private String collection;
     private int noOfAnswers;
     @Indexed
@@ -32,7 +32,6 @@ public class PersistentQuestion {
         question = newArticleQuestion.getQuestion();
         rightAnswer = newArticleQuestion.getRightAnswer();
         answers = questionType.getArticles();
-        answerStatistics = new ArrayList<>();
         this.collection = questionType.toString();
         noOfAnswers = 0;
         lastTimeUsed = LocalDateTime.now();
@@ -46,8 +45,8 @@ public class PersistentQuestion {
         return question;
     }
 
-    public List<AnswerStatistic> getAnswerStatistics() {
-        return answerStatistics;
+    public List<PersistentStatisticsAnswer> getPersistentStatisticsAnswers() {
+        return persistentStatisticsAnswers;
     }
 
     public String getRightAnswer() {
@@ -76,5 +75,9 @@ public class PersistentQuestion {
 
     public void incrementNumberOfAnswers() {
         noOfAnswers++;
+    }
+
+    public void addAnswerStatistics(boolean rightAnswer, String answer) {
+        persistentStatisticsAnswers.add(new PersistentStatisticsAnswer(rightAnswer, answer));
     }
 }

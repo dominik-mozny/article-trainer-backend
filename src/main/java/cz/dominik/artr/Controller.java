@@ -22,6 +22,7 @@ import cz.dominik.artr.remote.AddQuestionsAnswer;
 import cz.dominik.artr.remote.AnswerRequest;
 import cz.dominik.artr.remote.AnswerResponse;
 import cz.dominik.artr.remote.NewQuestions;
+import cz.dominik.artr.remote.StatisticsAnswers;
 
 /**
  * @author dominik.mozny
@@ -50,10 +51,16 @@ public class Controller {
             return ResponseEntity.noContent().build();
         }
         question.incrementNumberOfAnswers();
-        question = persistentQuestionRepository.save(question);
+        boolean isRightAnswer = question.getRightAnswer().equals(answerRequest.getAnswer());
+        question.addAnswerStatistics(isRightAnswer, answerRequest.getAnswer());
+        persistentQuestionRepository.save(question);
+
+        StatisticsAnswers statisticsAnswers = new StatisticsAnswers(question.getPersistentStatisticsAnswers());
+
         return ResponseEntity.ok(new AnswerResponse(
                 answerRequest.getQuestionId(),
-                question.getRightAnswer().equals(answerRequest.getAnswer()),
+                isRightAnswer,
+                statisticsAnswers,
                 new QuestionToBeAnswered(persistentQuestionService.getNextQuestionToAnswer(QuestionType.FR.toString()))));
     }
 
