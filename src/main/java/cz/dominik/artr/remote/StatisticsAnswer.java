@@ -7,11 +7,11 @@ import cz.dominik.artr.domain.PersistentStatisticsAnswer;
  */
 public class StatisticsAnswer {
     private String answer;
-    private boolean isRightAnswer;
+    private boolean rightAnswer;
 
     public StatisticsAnswer(PersistentStatisticsAnswer persistentStatisticsAnswer) {
         this.answer = persistentStatisticsAnswer.getAnswer();
-        this.isRightAnswer = persistentStatisticsAnswer.isRightAnswer();
+        this.rightAnswer = persistentStatisticsAnswer.isRightAnswer();
     }
 
     public String getAnswer() {
@@ -19,6 +19,6 @@ public class StatisticsAnswer {
     }
 
     public boolean isRightAnswer() {
-        return isRightAnswer;
+        return rightAnswer;
     }
 }
