@@ -1,5 +1,7 @@
 package cz.dominik.artr;
 
+import static cz.dominik.artr.domain.StaticConfiguration.NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,7 @@ public class Controller {
 
     @RequestMapping(value = "/questions", method = RequestMethod.GET, produces = "application/json")
     public QuestionsResponse getQuestions() {
-        List<PersistentQuestion> questions = persistentQuestionService.getNextQuestionsToAnswer(QuestionType.FR.toString(), 10);
+        List<PersistentQuestion> questions = persistentQuestionService.getNextQuestionsToAnswer(QuestionType.FR.toString(), NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY);
         return new QuestionsResponse(questions.stream().map(QuestionToBeAnswered::new).collect(Collectors.toList()));
     }
 
