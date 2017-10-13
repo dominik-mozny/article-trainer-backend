@@ -77,8 +77,8 @@ public class PersistentQuestionService {
     }
 
     public PersistentQuestion getNextQuestionToAnswer(String nameOfQuestionCollection) {
-        List<PersistentQuestion> fetchedQuestionCandidates = persistentQuestionRepository.findByCollection(nameOfQuestionCollection, new PageRequest(0, 2 * NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY));
-        System.out.println();
+        List<PersistentQuestion> fetchedQuestionCandidates = persistentQuestionRepository
+                .findByCollectionOrderByLastTimeUsedAsc(nameOfQuestionCollection, new PageRequest(0, 2 * NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY));
         if (fetchedQuestionCandidates.size() != NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY * 2) {
             throw new NotEnoughQuestionsException(nameOfQuestionCollection);
         }
@@ -86,7 +86,7 @@ public class PersistentQuestionService {
                 .min(Comparator.comparing(PersistentQuestion::getNoOfAnswers)).get().getNoOfAnswers();
         List<PersistentQuestion> filteredQuestionCandidates = fetchedQuestionCandidates.stream()
                 .filter(a -> a.getNoOfAnswers() == minNumberOfAnswers).collect(Collectors.toList());
-        int selectedQuestionIndex = RANDOM_GENERATOR.nextInt(filteredQuestionCandidates.size() - 1);
+        int selectedQuestionIndex = filteredQuestionCandidates.size() == 1 ? 0 : RANDOM_GENERATOR.nextInt(filteredQuestionCandidates.size() - 1);
         PersistentQuestion selectedQuestion = filteredQuestionCandidates.get(selectedQuestionIndex);
         selectedQuestion.setLastTimeUsedNow();
         PersistentQuestion updatedQuestion = persistentQuestionRepository.save(selectedQuestion);
