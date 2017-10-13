@@ -49,6 +49,8 @@ public class Controller {
         if (question == null) {
             return ResponseEntity.noContent().build();
         }
+        question.incrementNumberOfAnswers();
+        question = persistentQuestionRepository.save(question);
         return ResponseEntity.ok(new AnswerResponse(
                 answerRequest.getQuestionId(),
                 question.getRightAnswer().equals(answerRequest.getAnswer()),

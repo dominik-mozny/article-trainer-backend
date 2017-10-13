@@ -73,4 +73,8 @@ public class PersistentQuestion {
     public void setLastTimeUsedNow() {
         lastTimeUsed = LocalDateTime.now();
     }
+
+    public void incrementNumberOfAnswers() {
+        noOfAnswers++;
+    }
 }
