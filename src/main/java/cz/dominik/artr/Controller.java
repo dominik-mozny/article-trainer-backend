@@ -63,14 +63,14 @@ public class Controller {
         System.out.println("All deleted");
     }
 
-    @RequestMapping(value = "/addAllFrQuestions", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/initFrQuestions", method = RequestMethod.POST, produces = "application/json")
     public AddQuestionsAnswer addAllFrQuestions(@RequestBody NewQuestions questions) {
-        return persistentQuestionService.addAllArticleQuestions(questions, QuestionType.FR);
+        return persistentQuestionService.initArticleQuestions(questions, QuestionType.FR);
     }
 
     @RequestMapping(value = "/addAllDeQuestions", method = RequestMethod.POST, produces = "application/json")
     public AddQuestionsAnswer addAllDeQuestions(@RequestBody NewQuestions questions) {
-        return persistentQuestionService.addAllArticleQuestions(questions, QuestionType.DE);
+        return persistentQuestionService.initArticleQuestions(questions, QuestionType.DE);
     }
 
     public static void main(String[] args) throws Exception {

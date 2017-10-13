@@ -35,7 +35,7 @@ public class PersistentQuestionService {
     private static Random RANDOM_GENERATOR = new Random();
 
 
-    public AddQuestionsAnswer addAllArticleQuestions(NewQuestions questions, QuestionType questionType) {
+    public AddQuestionsAnswer initArticleQuestions(NewQuestions questions, QuestionType questionType) {
         int minSize = NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY * 4;
         if (questions.getQuestions().size() < minSize) {
             return AddQuestionsAnswer.failure("Question collection must contain at least " + minSize + " items.");
@@ -49,6 +49,8 @@ public class PersistentQuestionService {
             List<PersistentQuestion> questionsToPersist = questions.getQuestions().stream()
                     .map(q -> new PersistentQuestion(idGenerator.getAndIncrementNextId(), q, questionType))
                     .collect(Collectors.toList());
+            List<PersistentQuestion> toBeDeleted = persistentQuestionRepository.findByCollection(questionType.toString());
+            persistentQuestionRepository.delete(toBeDeleted);
             persistentQuestionRepository.save(questionsToPersist);
             LOGGER.info("Questions saved successfully.");
             return AddQuestionsAnswer.success();
