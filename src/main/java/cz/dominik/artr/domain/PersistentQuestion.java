@@ -69,4 +69,8 @@ public class PersistentQuestion {
     public LocalDateTime getLastTimeUsed() {
         return lastTimeUsed;
     }
+
+    public void setLastTimeUsedNow() {
+        lastTimeUsed = LocalDateTime.now();
+    }
 }

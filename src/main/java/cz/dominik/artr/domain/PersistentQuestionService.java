@@ -36,6 +36,10 @@ public class PersistentQuestionService {
 
 
     public AddQuestionsAnswer addAllArticleQuestions(NewQuestions questions, QuestionType questionType) {
+        int minSize = NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY * 4;
+        if (questions.getQuestions().size() < minSize) {
+            return AddQuestionsAnswer.failure("Question collection must contain at least " + minSize + " items.");
+        }
         Optional<String> invalidQuestionReason = invalidQuestionReason(questions.getQuestions(), questionType);
         if (invalidQuestionReason.isPresent()) {
             LOGGER.warn("Problem occurred while saving questions.");
@@ -74,6 +78,7 @@ public class PersistentQuestionService {
 
     public PersistentQuestion getNextQuestionToAnswer(String nameOfQuestionCollection) {
         List<PersistentQuestion> fetchedQuestionCandidates = persistentQuestionRepository.findByCollection(nameOfQuestionCollection, new PageRequest(0, 2 * NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY));
+        System.out.println();
         if (fetchedQuestionCandidates.size() != NUMBER_OF_QUESTIONS_DISPLAYED_SIMULTANEOUSLY * 2) {
             throw new NotEnoughQuestionsException(nameOfQuestionCollection);
         }
@@ -83,6 +88,8 @@ public class PersistentQuestionService {
                 .filter(a -> a.getNoOfAnswers() == minNumberOfAnswers).collect(Collectors.toList());
         int selectedQuestionIndex = RANDOM_GENERATOR.nextInt(filteredQuestionCandidates.size() - 1);
         PersistentQuestion selectedQuestion = filteredQuestionCandidates.get(selectedQuestionIndex);
-        return selectedQuestion;
+        selectedQuestion.setLastTimeUsedNow();
+        PersistentQuestion updatedQuestion = persistentQuestionRepository.save(selectedQuestion);
+        return updatedQuestion;
     }
 }
