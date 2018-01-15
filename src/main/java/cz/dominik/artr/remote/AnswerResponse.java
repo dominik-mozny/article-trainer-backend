@@ -9,19 +9,19 @@ import cz.dominik.artr.domain.QuestionToBeAnswered;
  */
 public class AnswerResponse {
     private long questionId;
-    private boolean result;
+    private boolean userAnswerResult;
     private List<StatisticsAnswer> statisticsAnswers;
     private QuestionToBeAnswered nextQuestion;
 
-    public AnswerResponse(long questionId, boolean result, List<StatisticsAnswer> statisticsAnswers, QuestionToBeAnswered nextQuestion) {
+    public AnswerResponse(long questionId, boolean userAnswerResult, List<StatisticsAnswer> statisticsAnswers, QuestionToBeAnswered nextQuestion) {
         this.questionId = questionId;
-        this.result = result;
+        this.userAnswerResult = userAnswerResult;
         this.statisticsAnswers = statisticsAnswers;
         this.nextQuestion = nextQuestion;
     }
 
-    public boolean isResult() {
-        return result;
+    public boolean isUserAnswerResult() {
+        return userAnswerResult;
     }
 
     public long getQuestionId() {

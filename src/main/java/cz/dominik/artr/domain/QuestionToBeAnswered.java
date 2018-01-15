@@ -13,18 +13,18 @@ public class QuestionToBeAnswered {
     @Id
     private Long id;
     private String question;
-    private List<String> answers;
+    private List<String> possibleAnswers;
 
     public QuestionToBeAnswered(PersistentQuestion pQuestion) {
         this.id = pQuestion.getId();
         this.question = pQuestion.getQuestion();
-        this.answers = pQuestion.getAnswers();
+        this.possibleAnswers = pQuestion.getAnswers();
     }
 
-    public QuestionToBeAnswered(long id, String question, List<String> answers) {
+    public QuestionToBeAnswered(long id, String question, List<String> possibleAnswers) {
         this.id = id;
         this.question = question;
-        this.answers = answers;
+        this.possibleAnswers = possibleAnswers;
     }
 
     public long getId() {
@@ -35,7 +35,7 @@ public class QuestionToBeAnswered {
         return question;
     }
 
-    public List<String> getAnswers() {
-        return answers;
+    public List<String> getPossibleAnswers() {
+        return possibleAnswers;
     }
 }

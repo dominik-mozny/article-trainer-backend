@@ -51,8 +51,8 @@ public class Controller {
             return ResponseEntity.noContent().build();
         }
         question.incrementNumberOfAnswers();
-        boolean isRightAnswer = question.getRightAnswer().equals(answerRequest.getAnswer());
-        question.addAnswerStatistics(isRightAnswer, answerRequest.getAnswer());
+        boolean isUserAnswerRight = question.getRightAnswer().equals(answerRequest.getAnswer());
+        question.addAnswerStatistics(isUserAnswerRight, answerRequest.getAnswer());
         persistentQuestionRepository.save(question);
 
         List<StatisticsAnswer> statisticsAnswers = question.getPersistentStatisticsAnswers().stream()
@@ -60,7 +60,7 @@ public class Controller {
 
         return ResponseEntity.ok(new AnswerResponse(
                 answerRequest.getQuestionId(),
-                isRightAnswer,
+                isUserAnswerRight,
                 statisticsAnswers,
                 new QuestionToBeAnswered(persistentQuestionService.getNextQuestionToAnswer(QuestionType.FR.toString()))));
     }
