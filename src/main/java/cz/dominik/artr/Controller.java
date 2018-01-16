@@ -37,14 +37,14 @@ public class Controller {
     @Autowired
     private PersistentQuestionService persistentQuestionService;
 
-    @RequestMapping(value = "/questions", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/questionForms", method = RequestMethod.GET, produces = "application/json")
     public QuestionsResponse getQuestions() {
         List<PersistentQuestion> questions = persistentQuestionService.getInitialQuestions(QuestionType.FR.toString());
         return new QuestionsResponse(questions.stream().map(QuestionToBeAnswered::new).collect(Collectors.toList()));
     }
 
 
-    @RequestMapping(value = "/sendAnswer", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/userAnswer", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<AnswerResponse> sendAnswer(@RequestBody AnswerRequest answerRequest) {
         PersistentQuestion question = persistentQuestionRepository.findOne(answerRequest.getQuestionId());
         if (question == null) {
