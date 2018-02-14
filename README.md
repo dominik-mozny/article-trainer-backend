@@ -1,5 +1,9 @@
 Documentation for Article trainer - backend
 
+Dictionary:
+* *ATB* - article-trainer-backup application (this application)
+* *AT* - article-trainer application
+
 
 Some concepts:
 

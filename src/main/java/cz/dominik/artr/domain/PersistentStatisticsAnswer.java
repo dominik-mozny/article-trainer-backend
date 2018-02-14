@@ -6,25 +6,25 @@ import java.time.LocalDateTime;
  * @author dominik.mozny
  */
 public class PersistentStatisticsAnswer {
-    private boolean rightAnswer;
-    private String answer;
+    private boolean correct;
+    private String userAnswer;
     private LocalDateTime answerDateTime;
 
-    public PersistentStatisticsAnswer(boolean rightAnswer, String answer) {
-        this.answer = answer;
-        this.rightAnswer = rightAnswer;
+    public PersistentStatisticsAnswer(boolean correct, String userAnswer) {
+        this.userAnswer = userAnswer;
+        this.correct = correct;
         this.answerDateTime = LocalDateTime.now();
     }
 
-    public boolean isRightAnswer() {
-        return rightAnswer;
+    public boolean isCorrect() {
+        return correct;
     }
 
     public LocalDateTime getAnswerDateTime() {
         return answerDateTime;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getUserAnswer() {
+        return userAnswer;
     }
 }

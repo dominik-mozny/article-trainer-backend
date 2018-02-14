@@ -6,19 +6,19 @@ import cz.dominik.artr.domain.PersistentStatisticsAnswer;
  * @author dominik.mozny
  */
 public class StatisticsAnswer {
-    private String answer;
-    private boolean rightAnswer;
+    private String userAnswer;
+    private boolean correct;
 
     public StatisticsAnswer(PersistentStatisticsAnswer persistentStatisticsAnswer) {
-        this.answer = persistentStatisticsAnswer.getAnswer();
-        this.rightAnswer = persistentStatisticsAnswer.isRightAnswer();
+        this.userAnswer = persistentStatisticsAnswer.getUserAnswer();
+        this.correct = persistentStatisticsAnswer.isCorrect();
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getUserAnswer() {
+        return userAnswer;
     }
 
-    public boolean isRightAnswer() {
-        return rightAnswer;
+    public boolean isCorrect() {
+        return correct;
     }
 }
